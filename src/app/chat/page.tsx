@@ -28,7 +28,10 @@ export default function ChatPage() {
 
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: newMessage, isUser: true },
+          {
+            text: newMessage,
+            isUser: true,
+          },
           {
             text: aiResponse.answer,
             isUser: false,
@@ -38,7 +41,10 @@ export default function ChatPage() {
         console.error("Error getting AI response:", error);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: newMessage, isUser: true },
+          {
+            text: newMessage,
+            isUser: true,
+          },
           {
             text: "Sorry, I encountered an error while processing your request.",
             isUser: false,
