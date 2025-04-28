@@ -17,7 +17,8 @@ export default function ChatPage() {
 
   const handleSendMessage = async () => {
     if (newMessage.trim() !== "") {
-      setMessages([...messages, { text: newMessage, isUser: true }]);
+      const userMessage = { text: newMessage, isUser: true };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       // Call to backend to get AI response
       try {
@@ -28,10 +29,7 @@ export default function ChatPage() {
 
         setMessages((prevMessages) => [
           ...prevMessages,
-          {
-            text: newMessage,
-            isUser: true,
-          },
+          userMessage,
           {
             text: aiResponse.answer,
             isUser: false,
@@ -41,10 +39,7 @@ export default function ChatPage() {
         console.error("Error getting AI response:", error);
         setMessages((prevMessages) => [
           ...prevMessages,
-          {
-            text: newMessage,
-            isUser: true,
-          },
+          userMessage,
           {
             text: "Sorry, I encountered an error while processing your request.",
             isUser: false,

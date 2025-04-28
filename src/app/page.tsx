@@ -33,12 +33,21 @@ export default function Home() {
 
       const file = e.dataTransfer.files[0];
       if (file && file.type === "application/pdf") {
-        // TODO: Call to store the document in Firebase storage and trigger a Cloud Function
-        // For now, just extract text locally
+        // TODO:
+        // 1. Generate a session ID (UUID).
+        // 2. Store the document in Firebase storage, using the session ID as part of the path.
+        // 3. Trigger a Cloud Function that:
+        //    a. Extracts text from the PDF.
+        //    b. Splits text into chunks.
+        //    c. Generates embeddings for semantic search.
+        //    d. Stores embeddings and metadata temporarily in Firestore with the session ID.
+        // 4. Redirect to /chat?sessionId={sessionId}.
+
+        // For now, just extract text locally.
         const text = await extractTextFromDocument(file);
         console.log("Extracted text:", text);
 
-        // Redirect to chat page with session ID or some form of state
+        // Redirect to chat page with session ID or some form of state.
         router.push("/chat");
       } else {
         alert("Please upload a PDF file.");
@@ -54,12 +63,21 @@ export default function Home() {
     const file = e.target.files?.[0];
 
     if (file && file.type === "application/pdf") {
-      // TODO: Call to store the document in Firebase storage and trigger a Cloud Function
-      // For now, just extract text locally
+      // TODO:
+      // 1. Generate a session ID (UUID).
+      // 2. Store the document in Firebase storage, using the session ID as part of the path.
+      // 3. Trigger a Cloud Function that:
+      //    a. Extracts text from the PDF.
+      //    b. Splits text into chunks.
+      //    c. Generates embeddings for semantic search.
+      //    d. Stores embeddings and metadata temporarily in Firestore with the session ID.
+      // 4. Redirect to /chat?sessionId={sessionId}.
+
+      // For now, just extract text locally.
       const text = await extractTextFromDocument(file);
       console.log("Extracted text:", text);
 
-      // Redirect to chat page with session ID or some form of state
+      // Redirect to chat page with session ID or some form of state.
       router.push("/chat");
     } else {
       alert("Please upload a PDF file.");
