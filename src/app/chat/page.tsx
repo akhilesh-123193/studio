@@ -6,6 +6,7 @@ import { Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { answerQuestion } from "@/ai/flows/answer-question";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([
@@ -14,20 +15,37 @@ export default function ChatPage() {
   const [newMessage, setNewMessage] = useState("");
   const router = useRouter();
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (newMessage.trim() !== "") {
       setMessages([...messages, { text: newMessage, isUser: true }]);
-      // TODO: Call to backend to get AI response
-      setTimeout(() => {
-        setMessages([
-          ...messages,
+
+      // Call to backend to get AI response
+      try {
+        const aiResponse = await answerQuestion({
+          question: newMessage,
+          sessionId: "123", // TODO: Replace with actual session ID
+        });
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
           { text: newMessage, isUser: true },
           {
-            text: "This is a dummy response. Waiting for Genkit AI implementation",
+            text: aiResponse.answer,
             isUser: false,
           },
         ]);
-      }, 500);
+      } catch (error) {
+        console.error("Error getting AI response:", error);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: newMessage, isUser: true },
+          {
+            text: "Sorry, I encountered an error while processing your request.",
+            isUser: false,
+          },
+        ]);
+      }
+
       setNewMessage("");
     }
   };
